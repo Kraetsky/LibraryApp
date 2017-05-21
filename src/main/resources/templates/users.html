@@ -1,0 +1,251 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Users</title>
+	
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<link rel="stylesheet"  type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/main.css"/>
+	
+
+	
+</head>
+<body  >
+
+<div><h1 id="a1"><a href="http://localhost:8080/users">Users</a></h1>        <h1 id="a2"><a href="http://localhost:8080/books">Books</a></h1></div>
+<form  action="http://localhost:8080/logout">
+<button type="submit" id="logout" class="btn btn-info btn-lg" >Logout</button>
+</form>
+
+<button type="button" id="modal1" class="btn btn-info btn-lg"  data-toggle="modal" data-target="#myModal">Add User</button>
+
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog" >
+
+  
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Fill the form:</h4>
+      </div>
+      <div class="modal-body">
+      
+		<p>Username:</p><input></input>
+		<p>Password:</p><input type="password"></input>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="button" class="btn btn-default" onclick="addUser()" data-dismiss="modal">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<table  class="table table-bordered" id="addTable"  border="1" >
+<thead> 
+<tr> 
+
+<th id="user-header">User</th>
+<th>Delete</th>
+
+</tr>
+</thead> 
+<tbody> 
+<tr id="tr1">
+
+
+
+<td class="td1" data-toggle="modal"  data-target="#myModal1"><a ></a></td>
+
+<td><input type="button" value="x"  class="delete-position" ></input></td>
+<td class="hidden1" ></td>
+
+
+</tr>
+
+</tbody> 
+</table>
+
+<div id="myModal1" class="modal fade" role="dialog">
+  <div class="modal-dialog" >
+
+  
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit user:</h4>
+      </div>
+      <div class="modal-body">
+      
+		<p>Username:</p><input></input>
+		<p>Password:</p><input></input>
+		<input id="inputId" type="hidden"></input>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="button" class="btn btn-default" onclick="updateUser()" data-dismiss="modal">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+$('.td1').click(function(){
+$('#inputId').val($(this).siblings('td:eq(1)').text());
+});
+$('#user-header').click( function(){
+$('#user-header').addClass("colored");
+});
+$(window).on('load', function() {
+  $.ajax({
+
+    url : "/users/showAll",
+    contentType : 'application/json',
+    type : 'GET',
+    success : function(data) { 
+	data.forEach(function (user) {
+	 $("#tr1").clone([true],[true]).removeAttr("id").appendTo( $("#tr1").parent() );
+	 
+	 $('tbody tr:eq(-1) td:eq(0) a').text(user.name);
+	 $('tbody tr:eq(-1) td:eq(2) ').text(user.id);
+     });
+	  
+    },
+    error : function(xhr, status, errorThrown) {
+        alert('Internal server error');
+    }
+
+});
+  
+  
+});
+
+
+$('#user-header').click(function(){
+    var table = $(this).parents('table').eq(0)
+    var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+    this.asc = !this.asc
+    if (!this.asc){rows = rows.reverse()}
+    for (var i = 0;i<rows.length; i++)
+	{
+	table.append(rows[i])}
+});
+function comparer(index) {
+    return function(a, b) {
+        var valA = getCellValue(a, index), valB = getCellValue(b, index)
+        return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.localeCompare(valB)
+    }
+}
+function getCellValue(row, index){ return $(row).children('td').eq(index).html() }
+
+
+ function addUser(){ 
+
+
+
+        var User = {
+	
+            "name":$('.modal-body input:eq(0)').val(),
+             "password":$('.modal-body input:eq(1)').val(),
+             
+
+        
+}
+
+$.ajax({
+
+    url : "/users/add",
+    contentType : 'application/json',
+    data : JSON.stringify(User),
+    type : 'POST',
+    success : function(data) { $("#tr1").clone([true],[true]).removeAttr("id").appendTo( $("#tr1").parent() );
+	$('tbody tr:eq(-1) td:eq(0) a').text(data.name);
+        alert('User added');
+		$('.modal-body input:eq(0)').val("");
+		$('.modal-body input:eq(1)').val("");
+    },
+    error : function(xhr, status, errorThrown) {
+        alert('User with this name already exists');
+    }
+
+});
+}       
+function updateUser(){ 
+
+
+
+        var User = {
+	
+            "name":$('#myModal1 .modal-body input:eq(0)').val(),
+             "password":$('#myModal1 .modal-body input:eq(1)').val(),
+               "id":  $('#myModal1 .modal-body input:eq(2)').val()
+             
+
+        
+}
+
+$.ajax({
+
+    data : JSON.stringify(User),
+    url : "/users/update",
+    contentType : 'application/json',
+    type : 'POST',
+    success : function(data) { 
+	$(this).closest('tr a').text(data.name);
+	
+        alert('User updated');
+		$('#myModal1 .modal-body input:eq(0)').val("");
+		$('#myModal1 .modal-body input:eq(1)').val("");
+    },
+    error : function(xhr, status, errorThrown) {
+        alert('User with this name already exists');
+    }
+
+});
+} 
+function deleteUser(e){ 
+
+
+
+        var User = {
+            
+ "name":$(e.target).closest('tr ').text().trim()
+        
+}
+
+$.ajax({
+
+    url : "/users/delete",
+    contentType : 'application/json',
+    data : JSON.stringify(User),
+    type : 'POST',
+    success : function(data) { 
+        alert('User deleted');
+    },
+    error : function(xhr, status, errorThrown) {
+        alert('Deleting user failed with status: ' + status + ". "
+                + errorThrown);
+    }
+
+});
+}
+
+$('.delete-position').click(function(e){if(confirm('You want to delete this user?')){
+deleteUser(e);
+$(this).closest('tr').remove();
+}
+});
+
+/*]]>*/
+</script>
+</html>
