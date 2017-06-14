@@ -1,0 +1,34 @@
+
+<div>
+
+<button type="button" id="modal1" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add book</button>
+
+<table class="table table-bordered" id="addTable"  border="1">
+
+<thead> 
+<tr>
+  <th>ISN</th>
+  <th id="author-header">Author</th>
+  <th id="title-header">Title</th>
+  <th>Is taken by</th>
+  <th>Delete</th>
+</tr>
+</thead> 
+<tbody> 
+<tr ng-repeat="book in booksCtrl.booksList">
+
+<td class="td1" data-toggle="modal" data-target="#myModal1" ><a>{{book.isn}}</a></td>
+<td >{{book.author}}</td>
+
+<td>{{book.title}}</td>
+
+<td>{{book.isTakenBy}}</td>
+
+<td><input type="button" value="x" class="delete-position" ></input></td>
+
+</tr>
+
+
+</tbody> 
+</table>
+</div>

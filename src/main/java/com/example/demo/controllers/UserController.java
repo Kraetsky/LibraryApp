@@ -39,5 +39,10 @@ public class UserController {
     public List<User> showAll()throws IOException{
         return userService.list();
     }
+    @GetMapping("/showAll")
+    public List<User> showAllUsers()throws IOException {
+        return userService.list();
+    }
+
 }
 
