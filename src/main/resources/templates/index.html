@@ -10,24 +10,29 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="../css/main.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.js"></script>
+    <script src="http:///unpkg.com/angular-ui-router/release/angular-ui-router.min.js"/>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
     <script src="../js/libraryApp.js"></script>
     <script src="../js/controllers/UsersController.js"></script>
     <script src="../js/controllers/BooksController.js"></script>
     <script src="../js/services/usersService.js"></script>
     <script src="../js/services/booksService.js"></script>
+    <script src="../js/filters/booksFilterTitle.js"></script>
+    <script src="../js/filters/booksFilter.js"></script>
+
 
 </head>
 <body >
 
-<div><h1 id="a1"><a href="/users">Users</a></h1>
-    <h1 id="a2"><a href="/books">Books</a></h1></div>
+<div><h1 id="a1"><a ui-sref="users">Users</a></h1>
+    <h1 id="a2"><a ui-sref="books">Books</a></h1></div>
 <form action="http://localhost:8080/logout">
     <button type="submit" id="logout" class="btn btn-info btn-lg">Logout</button>
 </form>
 
 
-<ng-view></ng-view>
+
+<ui-view></ui-view>
 </body>
 
 </html>

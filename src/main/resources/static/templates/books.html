@@ -2,7 +2,10 @@
 <div>
 
 <button type="button" id="modal1" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add book</button>
-
+<fieldset id="f1">
+  <input id="i1" type="text" placeholder="enter the author" ng-model="booksCtrl.bookFilterModel.bookAuthor"></input>
+  <input  id="i2" type="text" placeholder="enter the title" ng-model="booksCtrl.bookFilterModel.bookTitle"></input>
+</fieldset>
 <table class="table table-bordered" id="addTable"  border="1">
 
 <thead> 
@@ -15,7 +18,7 @@
 </tr>
 </thead> 
 <tbody> 
-<tr ng-repeat="book in booksCtrl.booksList">
+<tr ng-repeat="book in booksCtrl.booksList| booksFilter: booksCtrl.bookFilterModel | booksFilterTitle: booksCtrl.bookFilterModel">
 
 <td class="td1" data-toggle="modal" data-target="#myModal1" ><a>{{book.isn}}</a></td>
 <td >{{book.author}}</td>

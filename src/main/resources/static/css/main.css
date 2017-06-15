@@ -28,3 +28,14 @@ margin-top:-100px;
     margin-left: 200px;
     margin-top: -47px;
 }
+#f1{
+	margin-left:-170px;
+}
+ #i1,#i2{
+	width: 200px;
+	font-size: 13px;
+	padding: 6px 0 4px 10px;
+	border: 1px solid #cecece;
+	background: #F6F6f6;
+	border-radius: 8px;
+}

@@ -43,13 +43,49 @@
         </createTable>
     </changeSet>
     <changeSet id="3" author="kirill">
-        <insert tableName="users"   >
-            <column name="name" value="Kirill"/>
-            <column name="password" value="password"/>
-            <column name="enabled" value="true"/>
+    <insert tableName="users"   >
+        <column name="name" value="Kirill"/>
+        <column name="password" value="password"/>
+        <column name="enabled" value="true"/>
+    </insert>
+</changeSet>
+
+    <changeSet id="4" author="kirill">
+        <insert tableName="books"   >
+            <column name="userId" value="1"/>
+            <column name="title" value="Stihi"/>
+            <column name="author" value="Pushkin"/>
+            <column name="isn" value="146"/>
+            <column name="isTakenBy" value="Kirill"/>
         </insert>
     </changeSet>
-
+    <changeSet id="5" author="kirill">
+        <insert tableName="books"   >
+            <column name="userId" value="1"/>
+            <column name="title" value="Stihotvoreniya"/>
+            <column name="author" value="Esenin"/>
+            <column name="isn" value="734"/>
+            <column name="isTakenBy" value="Kirill"/>
+        </insert>
+    </changeSet>
+    <changeSet id="6" author="kirill">
+        <insert tableName="books"   >
+            <column name="userId" value="1"/>
+            <column name="title" value="Kniga"/>
+            <column name="author" value="Pushkin"/>
+            <column name="isn" value="523"/>
+            <column name="isTakenBy" value="Kirill"/>
+        </insert>
+    </changeSet>
+    <changeSet id="7" author="kirill">
+        <insert tableName="books"   >
+            <column name="userId" value="1"/>
+            <column name="title" value="Skazki"/>
+            <column name="author" value="Anderson"/>
+            <column name="isn" value="813"/>
+            <column name="isTakenBy" value="Kirill"/>
+        </insert>
+    </changeSet>
 
 
 </databaseChangeLog>
